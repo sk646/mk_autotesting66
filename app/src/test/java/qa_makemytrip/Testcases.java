@@ -30,6 +30,7 @@ public class Testcases {
       WebDriverManager.chromedriver().setup();
       driver= new ChromeDriver();
     }
+   @AfterTest 
     public void endTest() {
         System.out.println("End Test: TestCases");
         driver.close();
@@ -37,7 +38,8 @@ public class Testcases {
     }
 
     @Test(enabled=true)
-    public void Testcase01()throws InterruptedException, IOException{
+     public void Testcase01()throws InterruptedException, IOException{
+      System.out.println("Start testcase: 01");
         driver.get("https://www.lambdatest.com/");
         driver.manage().window().maximize();
         // Thread.sleep(4000);
@@ -54,14 +56,15 @@ public class Testcases {
         String timestamp = String.valueOf(java.time.LocalDateTime.now());
         String screenshot = String.format("screenshot_%s.png", timestamp);
         ru.yandex.qatools.ashot.Screenshot scr = new AShot(). takeScreenshot(driver);
-        ImageIO.write(scr.getImage(), "png", new File("C:\\Users\\X280\\Documents\\Crio Projects\\Screenshot606.png"));
+        ImageIO.write(scr.getImage(), "png", new File("C:\\Users\\X280\\Documents\\Crio Projects\\screenshot.png"));
         System.out.println(screenshot);
 
-        // driver.quit();
+       System.out.println("End testcase: 01");
     }
 
     @Test(enabled=true)
     public void Testcase02()throws InterruptedException, IOException{
+     System.out.println("Start testcase: 02");
         driver.get("https://www.flipkart.com/");
         driver.manage().window().maximize();
         WebElement search = driver.findElement(By.xpath("//input[@type='text']"));
@@ -83,7 +86,7 @@ public class Testcases {
                 System.out.println("Phone discountpercentage: "+m.getKey()+" "+"Phone Title: "+m.getValue());
                 
             }
-            // driver.quit();
+            System.out.println("End testcase: 02");
         }
     //    List<WebElement> discountRates = driver.findElements(By.xpath("//div[@class='yKfJKb row']/ancestor::div//div[@class='UkUFwK']"));
     //    for(WebElement discountRate:discountRates){
@@ -96,6 +99,7 @@ public class Testcases {
 
     @Test(enabled=true)
     public void Testcase03()throws InterruptedException, IOException{
+     System.out.println("Start testcase: 03");
      driver.get("https://www.scrapethissite.com/pages/");
      driver.manage().window().maximize();
      WebElement oscarwinning = driver.findElement(By.xpath("//a[contains(text(),'Oscar Winning Films')]"));
@@ -111,7 +115,29 @@ public class Testcases {
       String txtdata = rowdata.getText();
       System.out.println(txtdata);
       }
+     System.out.println("End testcase: 03");
      }
-
+    @Test(enabled=true)
+    public void Testcase04()throws InterruptedException, IOException{
+        System.out.println("Start testcase: 04");
+        driver.get("https://www.irctc.co.in/nget/train-search");
+        Actions ac = new Actions(driver);
+        ac.sendKeys(Keys.ESCAPE);
+        WebElement vigElement = driver.findElement(By.xpath("//button[contains(@aria-label,'Confirmation. Vigilance')]"));
+        vigElement.click();
+        Thread.sleep(3000);
+        WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@name,'https://irctclive.nlpcaptcha.in')]"));
+        driver.switchTo().frame(frame1 );
+        WebElement srcElement = driver.findElement(By.xpath("//div[contains(@class,'cubeBox')]/ancestor::div//a/img"));
+        String txt = srcElement.getAttribute("src");
+        System.out.println(txt);
+        srcElement.click();
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        Thread.sleep(2000);
+        driver.close();
+        System.out.println("End testcase: 04");
+        driver.quit();
+    }
 }
 
